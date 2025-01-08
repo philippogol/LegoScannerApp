@@ -5,23 +5,26 @@ struct ContentView: View {
     @StateObject private var cameraManager = CameraManager()
     @State private var isCameraActive = false
     @State private var classificationResult = ""
-    @State private var accuracy: Float = 0.0 // Add accuracy state
-    @State private var isInferring = false // Throttling inference
-    private let modelManager = ModelManager()
-    
-    private let boundingBoxSize: CGFloat = 200.0 // Bounding box size
+    @State private var accuracy: Float = 0.0
+    @State private var isInferring = false
+    @State private var selectedModel = "legocheck-model.tflite"
+    @StateObject private var modelManager = ModelManager()
+
+    private let availableModels = [
+        "legocheck-model.tflite",
+        "legocheck-model-2.tflite"
+    ]
 
     var body: some View {
         ZStack {
-            // Camera feed
             if isCameraActive {
+                // Camera feed
                 CameraPreview(image: cameraManager.frame)
                     .ignoresSafeArea()
                     .onChange(of: cameraManager.frame) { newFrame in
                         guard !isInferring, let frame = newFrame else { return }
                         isInferring = true
-                        
-                        // Perform inference on a background thread
+
                         DispatchQueue.global(qos: .userInitiated).async {
                             let result = modelManager.classifyWithAccuracy(frame: frame)
                             DispatchQueue.main.async {
@@ -31,52 +34,95 @@ struct ContentView: View {
                             }
                         }
                     }
-            }
-            
-            // Overlay bounding box
-            if isCameraActive {
-                Rectangle()
-                    .stroke(Color.green, lineWidth: 3)
-                    .frame(width: boundingBoxSize, height: boundingBoxSize)
-                    .position(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
-            }
-            
-            // Classification result
-            VStack {
-                Spacer()
                 
-                // Move the classification text higher
-                Text("\(classificationResult) (\(String(format: "%.2f", accuracy * 100))%)")
-                    .font(.title2)
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(10)
-                    .padding(.bottom, 150) // Adjust padding to move the text higher
-            }
-            
-            // Start/Stop camera button
-            VStack {
-                Spacer()
-                Button(action: {
-                    isCameraActive.toggle()
-                    if isCameraActive {
-                        cameraManager.start()
-                    } else {
-                        cameraManager.stop()
-                    }
-                }) {
-                    Image(systemName: isCameraActive ? "camera.fill" : "camera")
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
+                // Overlay bounding box
+                GeometryReader { geometry in
+                    Rectangle()
+                        .stroke(Color.green, lineWidth: 3)
+                        .frame(width: 200, height: 200)
+                        .position(x: geometry.size.width / 2,
+                                  y: geometry.size.height / 2 - 10) // Adjust dynamically
+                }
+
+
+                
+                VStack {
+                    Spacer()
+                    
+                    Text("\(classificationResult) (\(String(format: "%.2f", accuracy * 100))%)")
+                        .font(.title2)
                         .padding()
                         .background(.ultraThinMaterial)
-                        .clipShape(Circle())
+                        .cornerRadius(10)
+                        .padding(.bottom, 150)
                 }
-                .padding(.bottom, 20)
+                
+                // X button to stop the camera and return to the initial view
+                VStack {
+                    HStack {
+                        Button(action: {
+                            isCameraActive = false
+                            cameraManager.stop()
+                        }) {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 24))
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(.ultraThinMaterial)
+                                .clipShape(Circle())
+                        }
+                        .padding(.leading, 20)
+                        .padding(.top, 40)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            } else {
+                VStack {
+                    // Dropdown for selecting model
+                    Text("Select Model")
+                        .font(.headline)
+                        .padding(.bottom, 10)
+                    
+                    Picker("Model", selection: $selectedModel) {
+                        ForEach(availableModels, id: \.self) { model in
+                            Text(model).tag(model)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .padding()
+
+                    // Text box for model loaded status
+                    Text("Model correctly loaded")
+                        .font(.subheadline)
+                        .foregroundColor(.green)
+                        .padding()
+                        .background(Color(UIColor.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.bottom, 20)
+                    
+                    Button(action: {
+                        modelManager.loadModel(named: selectedModel)
+                        isCameraActive.toggle()
+                        if isCameraActive {
+                            cameraManager.start()
+                        } else {
+                            cameraManager.stop()
+                        }
+                    }) {
+                        Image(systemName: "camera")
+                            .font(.system(size: 24))
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .clipShape(Circle())
+                    }
+                }
             }
         }
     }
 }
+
 
 struct CameraPreview: View {
     let image: CGImage?

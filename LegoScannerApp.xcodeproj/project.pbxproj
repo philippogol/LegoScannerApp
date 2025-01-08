@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C3B5AFF2D2EDAAF00252A10 /* legocheck-model-2.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 8C3B5AFE2D2EDAAF00252A10 /* legocheck-model-2.tflite */; };
 		8CA6B39C2D2DADCA00FBBB6C /* legocheck-model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 8CA6B39B2D2DADCA00FBBB6C /* legocheck-model.tflite */; };
 		B021112624AE2547B1F691CA /* Pods_LegoScannerApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A8A59AD2DEDD250E35B168D /* Pods_LegoScannerApp.framework */; };
 /* End PBXBuildFile section */
@@ -15,6 +16,7 @@
 		0A8A59AD2DEDD250E35B168D /* Pods_LegoScannerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LegoScannerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3220EBE78AA71221E08118C1 /* Pods-LegoScannerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegoScannerApp.debug.xcconfig"; path = "Target Support Files/Pods-LegoScannerApp/Pods-LegoScannerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		8C30B9FF2D2DAA3F00AED5C8 /* LegoScannerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LegoScannerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C3B5AFE2D2EDAAF00252A10 /* legocheck-model-2.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "legocheck-model-2.tflite"; sourceTree = "<group>"; };
 		8CA6B39B2D2DADCA00FBBB6C /* legocheck-model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "legocheck-model.tflite"; sourceTree = "<group>"; };
 		9DCE134E6351998B13B71CC8 /* Pods-LegoScannerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LegoScannerApp.release.xcconfig"; path = "Target Support Files/Pods-LegoScannerApp/Pods-LegoScannerApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,6 +53,7 @@
 		8C30B9F62D2DAA3F00AED5C8 = {
 			isa = PBXGroup;
 			children = (
+				8C3B5AFE2D2EDAAF00252A10 /* legocheck-model-2.tflite */,
 				8CA6B39B2D2DADCA00FBBB6C /* legocheck-model.tflite */,
 				8C30BA012D2DAA3F00AED5C8 /* LegoScannerApp */,
 				8C30BA002D2DAA3F00AED5C8 /* Products */,
@@ -139,6 +142,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C3B5AFF2D2EDAAF00252A10 /* legocheck-model-2.tflite in Resources */,
 				8CA6B39C2D2DADCA00FBBB6C /* legocheck-model.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,6 +335,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "for ML pourposes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "saving pics scanned by the model";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "images saved for checkig purposes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -363,6 +369,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "for ML pourposes";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "saving pics scanned by the model";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "images saved for checkig purposes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
