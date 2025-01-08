@@ -19,7 +19,7 @@ This is an iOS application that uses a camera feed and a TensorFlow Lite model t
 
 1. Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/legoscannerapp.git
+   git clone https://github.com/philippogol/LegoScannerApp.git
    cd legoscannerapp
    ```
 
@@ -56,5 +56,5 @@ This is an iOS application that uses a camera feed and a TensorFlow Lite model t
 To get started, simply clone the repository and follow the setup instructions.
 
 ```bash
-git clone https://github.com/yourusername/legoscannerapp.git
+git clone https://github.com/philippogol/LegoScannerApp.git
 ```
