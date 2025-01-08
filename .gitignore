@@ -1,0 +1,65 @@
+# Xcode
+.DS_Store
+build/
+DerivedData/
+.idea/
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# Archives
+*.xcarchive
+
+# Hints
+*.swp
+*.swo
+*.idea/
+
+# Temporary files
+*.tmp
+*.log
+
+# Provisioning Profiles
+*.mobileprovision
+
+# App specific
+*.ipa
+*.app
+
+# Unit test logs
+test-output/
+
+# Xcode specific files
+!default.profraw
+profile/
+
+# Environment files
+.env
+.env.*
+
+# Generated files
+*.plist
+
+# Code Coverage
+*.xccovreport
+*.xccovarchive
+
+# Firebase related
+GoogleService-Info.plist
