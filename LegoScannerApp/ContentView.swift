@@ -12,7 +12,8 @@ struct ContentView: View {
 
     private let availableModels = [
         "legocheck-model.tflite",
-        "legocheck-model-2.tflite"
+        "legocheck-model-2.tflite",
+        "legocheck-model-3.tflite"
     ]
 
     var body: some View {
@@ -91,15 +92,19 @@ struct ContentView: View {
                     }
                     .pickerStyle(MenuPickerStyle())
                     .padding()
+                    .onChange(of: selectedModel) { newModel in
+                        modelManager.loadModel(named: newModel) // Trigger model load when selection changes
+                    }
 
                     // Text box for model loaded status
-                    Text("Model correctly loaded")
+                    Text(modelManager.currentModelName)
                         .font(.subheadline)
-                        .foregroundColor(.green)
+                        .foregroundColor(modelManager.currentModelName.contains("correctly loaded") ? .green : .red)
                         .padding()
                         .background(Color(UIColor.systemGray6))
                         .cornerRadius(8)
                         .padding(.bottom, 20)
+
                     
                     Button(action: {
                         modelManager.loadModel(named: selectedModel)

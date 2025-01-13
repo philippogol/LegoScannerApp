@@ -13,20 +13,32 @@ class ModelManager: ObservableObject {
     }
 
     func loadModel(named modelName: String) {
-        guard let modelPath = Bundle.main.path(forResource: modelName, ofType: nil) else {
-            print("Failed to load model: \(modelName)")
-            return
-        }
+        currentModelName = "Loading..."
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let modelPath = Bundle.main.path(forResource: modelName, ofType: nil) else {
+                DispatchQueue.main.async {
+                    self.currentModelName = "Failed to load model: \(modelName)"
+                }
+                print("Failed to load model: \(modelName)")
+                return
+            }
 
-        do {
-            interpreter = try Interpreter(modelPath: modelPath)
-            try interpreter?.allocateTensors()
-            classLabels = defaultClassLabels // Replace with dynamic labels if needed
-            currentModelName = modelName
-        } catch {
-            print("Failed to create interpreter for \(modelName): \(error.localizedDescription)")
+            do {
+                self.interpreter = try Interpreter(modelPath: modelPath)
+                try self.interpreter?.allocateTensors()
+                self.classLabels = self.defaultClassLabels // Replace with dynamic labels if needed
+                DispatchQueue.main.async {
+                    self.currentModelName = "\(modelName) correctly loaded"
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.currentModelName = "Failed to create interpreter for \(modelName)"
+                }
+                print("Failed to create interpreter for \(modelName): \(error.localizedDescription)")
+            }
         }
     }
+
 
     func classifyWithAccuracy(frame: CGImage) -> (label: String, accuracy: Float) {
         guard let input = preprocessImage(frame, width: 64, height: 64) else {
